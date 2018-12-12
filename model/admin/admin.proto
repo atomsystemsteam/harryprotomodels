@@ -1,10 +1,14 @@
 syntax = "proto3";
 
+option go_package = "github.com/atomsystemsteam/harryprotomodels/model/admin";
+
 package admin;
 
 import "google/protobuf/timestamp.proto";
 
-message admin {
+import "role/role.proto";
+
+message Admin {
     int32 id = 1;
     string first_name = 2;
     string last_name = 3;
@@ -16,40 +20,5 @@ message admin {
     bool is_deleted = 9;
     google.protobuf.Timestamp UpdatedAt = 10;
     google.protobuf.Timestamp CreatedAt = 11;
-    repeated role roles = 12;
-}
-
-message role {
-    int32 id = 1;
-}
-
-message request {
-    int32 id = 1;
-    string first_name = 2;
-}
-
-message loginRequest {
-    string email = 1;
-    string password = 2;
-}
-
-message loginResponse {
-    string status = 1;
-    int32 code = 2;
-    string message = 3;
-    string token = 4;
-}
-
-message deleteResponse {
-    string status = 1;
-    int32 code = 2;
-}
-
-service HarryAdminService {
-    rpc GetAdmin (request) returns (admin);
-    rpc GetAllAdmin (request) returns (stream admin);
-    rpc CreateAdmin (admin) returns (admin);
-    rpc UpdateAdmin (admin) returns (admin);
-    rpc DeleteAdmin (admin) returns (deleteResponse);
-    rpc Login (loginRequest) returns (loginResponse);
+    repeated role.Role roles = 12;
 }
