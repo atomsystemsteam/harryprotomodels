@@ -1,0 +1,82 @@
+syntax = "proto3";
+
+package user;
+
+import "google/protobuf/timestamp.proto";
+
+message user {
+    int32 id = 1;
+    string first_name = 2;
+    string last_name = 3;
+    string email = 4;
+    string phone = 5;
+    int32 type = 6; // 1 - Mobile, 2 - Facebook, 3 -Google
+    string password = 7;
+    string otp = 8;
+    bool is_active = 9;
+    bool is_deleted = 10;
+    google.protobuf.Timestamp UpdatedAt = 11;
+	google.protobuf.Timestamp CreatedAt = 12;
+}
+
+message loginRequest {
+    string email = 1;
+    string phone = 2;
+    string password = 3;
+}
+
+message otpRequest {
+    string phone = 1;
+    string otp = 2;
+}
+
+message setPasswordRequest {
+    int32 id = 1;
+    string password = 2;
+    string confirmPassword = 3;
+    string newPassword = 4;
+}
+
+message reponseMessage {
+    int32 code = 1;
+    string status = 2;
+    string message = 3;
+    user data = 4;
+    string token = 5;
+}
+
+message emailRequest {
+    int32 id = 1;    
+    string email = 2;
+}
+
+message emailVerifyRequest {
+    int32 id = 1;    
+    string email = 2;
+    string token = 3;
+}
+
+message passwordRequest {
+    string email = 1;
+}
+
+message resetPasswordRequest {
+    string email = 1;
+    string token = 2;
+    string password = 3;
+    string confirmPassword = 4;
+}
+
+service HarryUserService {    
+    rpc RegisterSocialUser(user) returns (reponseMessage);
+    rpc RegisterMobileUser (user) returns (reponseMessage);
+    rpc Login (loginRequest) returns (reponseMessage);
+    rpc VerifyOTP(otpRequest) returns (reponseMessage);
+    rpc UpdateProfile(user) returns (reponseMessage);
+    rpc SetPassword(setPasswordRequest) returns (reponseMessage);
+    rpc ChangePassword(setPasswordRequest) returns(reponseMessage);
+    rpc SetEmail(emailRequest) returns (reponseMessage);
+    rpc EmailVerification(emailVerifyRequest) returns (reponseMessage);
+    rpc ForgotPassword(passwordRequest) returns (reponseMessage);
+    rpc ResetPassword(resetPasswordRequest) returns (reponseMessage);
+}

@@ -1,0 +1,81 @@
+// proto3
+syntax = "proto3";
+
+// Package models is where all the action for models will happen
+package stylist;
+
+// stylist : message
+message stylist {
+    int32 ID = 1;
+    string first_name = 2;
+	string last_name = 3;
+	int64 phone_no = 5;
+	string email_id = 6;
+	string address = 7;
+	string password = 8;
+	bool is_active = 9;
+    bool Is_deleted = 10;
+    int32 activation_key = 11;
+}
+
+// request : message
+message request {
+    int32 id = 1;
+    string first_name = 2;
+    int32 activation_key = 3;
+}
+
+// DeleteResponse : message
+message DeleteResponse {
+    string status = 1;
+    int32 code = 2;
+}
+
+// LoginRequest : message
+message loginRequest {
+    string email_id = 1;
+    string password = 2;
+}
+
+// ResponseMessage : message
+message reponseMessage {
+    int32 code = 1;
+    string status = 2;
+    string message = 3;
+    string token = 4;
+}
+
+//SetPasswordRequest : message
+message setPasswordRequest {
+    int32 id = 1;
+    string password = 2;
+    string confirmPassword = 3;
+    string newPassword = 4;
+}
+
+//PasswordRequest : message
+message passwordRequest {
+    string email = 1;
+}
+
+//ResetPasswordRequest : message
+message resetPasswordRequest {
+    string email = 1;
+    string token = 2;
+    string password = 3;
+    string confirmPassword = 4;
+}
+
+// HarryStylistService : GRPC stylist services
+service HarryStylistService {
+    rpc GetStylist(request) returns(stylist);
+    rpc GetAllStylists(request) returns(stream stylist);
+    rpc CheckStylistActivation(request) returns (stylist);
+    rpc CreateStylist (stylist) returns (stylist);
+    rpc UpdateStylist (stylist) returns (stylist);
+    rpc DeleteStylist (stylist) returns (DeleteResponse);
+    rpc Login (loginRequest) returns (reponseMessage);
+    rpc ChangePassword(setPasswordRequest) returns(reponseMessage); 
+    rpc ForgotPassword(passwordRequest) returns (reponseMessage);
+    rpc ResetPassword(resetPasswordRequest) returns (reponseMessage);
+}
