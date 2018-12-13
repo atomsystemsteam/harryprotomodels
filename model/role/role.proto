@@ -1,8 +1,9 @@
 syntax = "proto3";
 
-option go_package = "github.com/atomsystemsteam/harryprotomodels/model/role";
+// option go_package = "harry-admin-api/models/role";
 
 package role;
+option go_package = "github.com/atomsystemsteam/harryprotomodels/model/role";
 
 import "google/protobuf/timestamp.proto";
 
@@ -12,5 +13,23 @@ message Role {
     bool is_active = 3;
     bool is_deleted = 4;
     google.protobuf.Timestamp UpdatedAt = 5;
-    google.protobuf.Timestamp CreatedAt = 6;
+	google.protobuf.Timestamp CreatedAt = 6;
+}
+
+message request {
+    int32 id = 1;
+    string role_name = 2;
+}
+
+message response {
+    string status = 1;
+    int32 code = 2;
+}
+
+service AdminRoleService {
+    rpc GetRole (request) returns (Role);
+    rpc GetRoles (request) returns (stream Role);
+    rpc CreateRole(Role) returns (Role);
+    rpc UpdateRole(Role) returns (Role);
+    rpc DeleteRole (Role) returns (response);
 }
