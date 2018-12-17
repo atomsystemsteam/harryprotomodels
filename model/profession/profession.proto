@@ -1,8 +1,8 @@
 syntax = "proto3";
 
-option go_package = "github.com/atomsystemsteam/harryprotomodels/model/profession";
-
 package profession;
+
+option go_package = "profession";
 
 import "google/protobuf/timestamp.proto";
 import "service/service.proto";
@@ -15,7 +15,7 @@ message Profession {
     google.protobuf.Timestamp UpdatedAt = 5;
     google.protobuf.Timestamp CreatedAt = 6;
     google.protobuf.Timestamp DeletedAt = 7;
-    repeated service.service services = 8;
+    repeated service.Service services = 8;
 }
 
 message request {

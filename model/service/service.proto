@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package service;
 
-option go_package = "github.com/atomsystemsteam/harryprotomodels/model/service";
+option go_package = "service";
 
 import "google/protobuf/timestamp.proto";
 
