@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+option go_package = "github.com/atomsystemsteam/harryprotomodels/model/profession";
+
+package profession;
+
+import "google/protobuf/timestamp.proto";
+import "service/service.proto";
+
+message Profession {
+    int32 id = 1;
+    string name = 2;
+    string image = 3;
+    bool is_active = 4;
+    google.protobuf.Timestamp UpdatedAt = 5;
+    google.protobuf.Timestamp CreatedAt = 6;
+    google.protobuf.Timestamp DeletedAt = 7;
+    repeated service.service services = 8;
+}
+
+message request {
+    int32 id = 1;
+    string name = 2;
+}
+
+message deleteResponse {
+    string status = 1;
+    int32 code = 2;
+}
+
+service HarryProfessionService {
+    rpc GetProfession (request) returns (Profession);
+    rpc GetAllProfession (request) returns (stream Profession);
+    rpc CreateProfession (Profession) returns (Profession);
+    rpc UpdateProfession (Profession) returns (Profession);
+    rpc DeleteProfession (Profession) returns (deleteResponse);
+}
