@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package profession;
 
-option go_package = "profession";
+option go_package = "github.com/atomsystemsteam/harryprotomodels/model/profession";
 
 import "google/protobuf/timestamp.proto";
 import "service/service.proto";
@@ -18,20 +18,20 @@ message Profession {
     repeated service.Service services = 8;
 }
 
-message request {
+message professionRequest {
     int32 id = 1;
     string name = 2;
 }
 
-message deleteResponse {
+message professionDeleteResponse {
     string status = 1;
     int32 code = 2;
 }
 
 service HarryProfessionService {
-    rpc GetProfession (request) returns (Profession);
-    rpc GetAllProfession (request) returns (stream Profession);
+    rpc GetProfession (professionRequest) returns (Profession);
+    rpc GetAllProfession (professionRequest) returns (stream Profession);
     rpc CreateProfession (Profession) returns (Profession);
     rpc UpdateProfession (Profession) returns (Profession);
-    rpc DeleteProfession (Profession) returns (deleteResponse);
+    rpc DeleteProfession (Profession) returns (professionDeleteResponse);
 }

@@ -1,6 +1,8 @@
 // proto3
 syntax = "proto3";
 
+option go_package = "github.com/atomsystemsteam/harryprotomodels/model/stylist";
+
 // Package models is where all the action for models will happen
 package stylist;
 
@@ -19,7 +21,7 @@ message stylist {
 }
 
 // request : message
-message request {
+message stylistRequest {
     int32 id = 1;
     string first_name = 2;
     int32 activation_key = 3;
@@ -68,9 +70,9 @@ message resetPasswordRequest {
 
 // HarryStylistService : GRPC stylist services
 service HarryStylistService {
-    rpc GetStylist(request) returns(stylist);
-    rpc GetAllStylists(request) returns(stream stylist);
-    rpc CheckStylistActivation(request) returns (stylist);
+    rpc GetStylist(stylistRequest) returns(stylist);
+    rpc GetAllStylists(stylistRequest) returns(stream stylist);
+    rpc CheckStylistActivation(stylistRequest) returns (stylist);
     rpc CreateStylist (stylist) returns (stylist);
     rpc UpdateStylist (stylist) returns (stylist);
     rpc DeleteStylist (stylist) returns (DeleteResponse);

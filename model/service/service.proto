@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package service;
 
-option go_package = "service";
+option go_package = "github.com/atomsystemsteam/harryprotomodels/model/service";
 
 import "google/protobuf/timestamp.proto";
 
@@ -10,25 +10,26 @@ message Service {
     int32 id = 1;
     string name = 2;
     bool is_active = 3;
-    google.protobuf.Timestamp UpdatedAt = 4;
-    google.protobuf.Timestamp CreatedAt = 5;
-    google.protobuf.Timestamp DeletedAt = 6;
+    int32 profession_id = 4;
+    google.protobuf.Timestamp UpdatedAt = 5;
+    google.protobuf.Timestamp CreatedAt = 6;
+    google.protobuf.Timestamp DeletedAt = 7;
 }
 
-message request {
+message serviceRequest {
     int32 id = 1;
     string name = 2;
 }
 
-message deleteResponse {
+message serviceDeleteResponse {
     string status = 1;
     int32 code = 2;
 }
 
 service HarryServiceService {
-    rpc GetService (request) returns (Service);
-    rpc GetAllService (request) returns (stream Service);
+    rpc GetService (serviceRequest) returns (Service);
+    rpc GetAllService (serviceRequest) returns (stream Service);
     rpc CreateService (Service) returns (Service);
     rpc UpdateService (Service) returns (Service);
-    rpc DeleteService (Service) returns (deleteResponse);
+    rpc DeleteService (Service) returns (serviceDeleteResponse);
 }

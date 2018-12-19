@@ -20,6 +20,11 @@ import math "math"
 import google_protobuf "github.com/golang/protobuf/ptypes/timestamp"
 import service "service"
 
+import (
+	context "golang.org/x/net/context"
+	grpc "google.golang.org/grpc"
+)
+
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
 var _ = fmt.Errorf
@@ -155,6 +160,238 @@ func init() {
 	proto.RegisterType((*Profession)(nil), "profession.Profession")
 	proto.RegisterType((*Request)(nil), "profession.request")
 	proto.RegisterType((*DeleteResponse)(nil), "profession.deleteResponse")
+}
+
+// Reference imports to suppress errors if they are not otherwise used.
+var _ context.Context
+var _ grpc.ClientConn
+
+// This is a compile-time assertion to ensure that this generated file
+// is compatible with the grpc package it is being compiled against.
+const _ = grpc.SupportPackageIsVersion4
+
+// Client API for HarryProfessionService service
+
+type HarryProfessionServiceClient interface {
+	GetProfession(ctx context.Context, in *Request, opts ...grpc.CallOption) (*Profession, error)
+	GetAllProfession(ctx context.Context, in *Request, opts ...grpc.CallOption) (HarryProfessionService_GetAllProfessionClient, error)
+	CreateProfession(ctx context.Context, in *Profession, opts ...grpc.CallOption) (*Profession, error)
+	UpdateProfession(ctx context.Context, in *Profession, opts ...grpc.CallOption) (*Profession, error)
+	DeleteProfession(ctx context.Context, in *Profession, opts ...grpc.CallOption) (*DeleteResponse, error)
+}
+
+type harryProfessionServiceClient struct {
+	cc *grpc.ClientConn
+}
+
+func NewHarryProfessionServiceClient(cc *grpc.ClientConn) HarryProfessionServiceClient {
+	return &harryProfessionServiceClient{cc}
+}
+
+func (c *harryProfessionServiceClient) GetProfession(ctx context.Context, in *Request, opts ...grpc.CallOption) (*Profession, error) {
+	out := new(Profession)
+	err := grpc.Invoke(ctx, "/profession.HarryProfessionService/GetProfession", in, out, c.cc, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *harryProfessionServiceClient) GetAllProfession(ctx context.Context, in *Request, opts ...grpc.CallOption) (HarryProfessionService_GetAllProfessionClient, error) {
+	stream, err := grpc.NewClientStream(ctx, &_HarryProfessionService_serviceDesc.Streams[0], c.cc, "/profession.HarryProfessionService/GetAllProfession", opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &harryProfessionServiceGetAllProfessionClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type HarryProfessionService_GetAllProfessionClient interface {
+	Recv() (*Profession, error)
+	grpc.ClientStream
+}
+
+type harryProfessionServiceGetAllProfessionClient struct {
+	grpc.ClientStream
+}
+
+func (x *harryProfessionServiceGetAllProfessionClient) Recv() (*Profession, error) {
+	m := new(Profession)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
+func (c *harryProfessionServiceClient) CreateProfession(ctx context.Context, in *Profession, opts ...grpc.CallOption) (*Profession, error) {
+	out := new(Profession)
+	err := grpc.Invoke(ctx, "/profession.HarryProfessionService/CreateProfession", in, out, c.cc, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *harryProfessionServiceClient) UpdateProfession(ctx context.Context, in *Profession, opts ...grpc.CallOption) (*Profession, error) {
+	out := new(Profession)
+	err := grpc.Invoke(ctx, "/profession.HarryProfessionService/UpdateProfession", in, out, c.cc, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *harryProfessionServiceClient) DeleteProfession(ctx context.Context, in *Profession, opts ...grpc.CallOption) (*DeleteResponse, error) {
+	out := new(DeleteResponse)
+	err := grpc.Invoke(ctx, "/profession.HarryProfessionService/DeleteProfession", in, out, c.cc, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// Server API for HarryProfessionService service
+
+type HarryProfessionServiceServer interface {
+	GetProfession(context.Context, *Request) (*Profession, error)
+	GetAllProfession(*Request, HarryProfessionService_GetAllProfessionServer) error
+	CreateProfession(context.Context, *Profession) (*Profession, error)
+	UpdateProfession(context.Context, *Profession) (*Profession, error)
+	DeleteProfession(context.Context, *Profession) (*DeleteResponse, error)
+}
+
+func RegisterHarryProfessionServiceServer(s *grpc.Server, srv HarryProfessionServiceServer) {
+	s.RegisterService(&_HarryProfessionService_serviceDesc, srv)
+}
+
+func _HarryProfessionService_GetProfession_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Request)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(HarryProfessionServiceServer).GetProfession(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/profession.HarryProfessionService/GetProfession",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(HarryProfessionServiceServer).GetProfession(ctx, req.(*Request))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _HarryProfessionService_GetAllProfession_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(Request)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(HarryProfessionServiceServer).GetAllProfession(m, &harryProfessionServiceGetAllProfessionServer{stream})
+}
+
+type HarryProfessionService_GetAllProfessionServer interface {
+	Send(*Profession) error
+	grpc.ServerStream
+}
+
+type harryProfessionServiceGetAllProfessionServer struct {
+	grpc.ServerStream
+}
+
+func (x *harryProfessionServiceGetAllProfessionServer) Send(m *Profession) error {
+	return x.ServerStream.SendMsg(m)
+}
+
+func _HarryProfessionService_CreateProfession_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Profession)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(HarryProfessionServiceServer).CreateProfession(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/profession.HarryProfessionService/CreateProfession",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(HarryProfessionServiceServer).CreateProfession(ctx, req.(*Profession))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _HarryProfessionService_UpdateProfession_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Profession)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(HarryProfessionServiceServer).UpdateProfession(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/profession.HarryProfessionService/UpdateProfession",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(HarryProfessionServiceServer).UpdateProfession(ctx, req.(*Profession))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _HarryProfessionService_DeleteProfession_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Profession)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(HarryProfessionServiceServer).DeleteProfession(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/profession.HarryProfessionService/DeleteProfession",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(HarryProfessionServiceServer).DeleteProfession(ctx, req.(*Profession))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+var _HarryProfessionService_serviceDesc = grpc.ServiceDesc{
+	ServiceName: "profession.HarryProfessionService",
+	HandlerType: (*HarryProfessionServiceServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "GetProfession",
+			Handler:    _HarryProfessionService_GetProfession_Handler,
+		},
+		{
+			MethodName: "CreateProfession",
+			Handler:    _HarryProfessionService_CreateProfession_Handler,
+		},
+		{
+			MethodName: "UpdateProfession",
+			Handler:    _HarryProfessionService_UpdateProfession_Handler,
+		},
+		{
+			MethodName: "DeleteProfession",
+			Handler:    _HarryProfessionService_DeleteProfession_Handler,
+		},
+	},
+	Streams: []grpc.StreamDesc{
+		{
+			StreamName:    "GetAllProfession",
+			Handler:       _HarryProfessionService_GetAllProfession_Handler,
+			ServerStreams: true,
+		},
+	},
+	Metadata: "profession/profession.proto",
 }
 
 func init() { proto.RegisterFile("profession/profession.proto", fileDescriptor0) }

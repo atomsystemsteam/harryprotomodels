@@ -19,6 +19,11 @@ import fmt "fmt"
 import math "math"
 import google_protobuf "github.com/golang/protobuf/ptypes/timestamp"
 
+import (
+	context "golang.org/x/net/context"
+	grpc "google.golang.org/grpc"
+)
+
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
 var _ = fmt.Errorf
@@ -138,6 +143,238 @@ func init() {
 	proto.RegisterType((*Service)(nil), "service.Service")
 	proto.RegisterType((*Request)(nil), "service.request")
 	proto.RegisterType((*DeleteResponse)(nil), "service.deleteResponse")
+}
+
+// Reference imports to suppress errors if they are not otherwise used.
+var _ context.Context
+var _ grpc.ClientConn
+
+// This is a compile-time assertion to ensure that this generated file
+// is compatible with the grpc package it is being compiled against.
+const _ = grpc.SupportPackageIsVersion4
+
+// Client API for HarryServiceService service
+
+type HarryServiceServiceClient interface {
+	GetService(ctx context.Context, in *Request, opts ...grpc.CallOption) (*Service, error)
+	GetAllService(ctx context.Context, in *Request, opts ...grpc.CallOption) (HarryServiceService_GetAllServiceClient, error)
+	CreateService(ctx context.Context, in *Service, opts ...grpc.CallOption) (*Service, error)
+	UpdateService(ctx context.Context, in *Service, opts ...grpc.CallOption) (*Service, error)
+	DeleteService(ctx context.Context, in *Service, opts ...grpc.CallOption) (*DeleteResponse, error)
+}
+
+type harryServiceServiceClient struct {
+	cc *grpc.ClientConn
+}
+
+func NewHarryServiceServiceClient(cc *grpc.ClientConn) HarryServiceServiceClient {
+	return &harryServiceServiceClient{cc}
+}
+
+func (c *harryServiceServiceClient) GetService(ctx context.Context, in *Request, opts ...grpc.CallOption) (*Service, error) {
+	out := new(Service)
+	err := grpc.Invoke(ctx, "/service.HarryServiceService/GetService", in, out, c.cc, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *harryServiceServiceClient) GetAllService(ctx context.Context, in *Request, opts ...grpc.CallOption) (HarryServiceService_GetAllServiceClient, error) {
+	stream, err := grpc.NewClientStream(ctx, &_HarryServiceService_serviceDesc.Streams[0], c.cc, "/service.HarryServiceService/GetAllService", opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &harryServiceServiceGetAllServiceClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type HarryServiceService_GetAllServiceClient interface {
+	Recv() (*Service, error)
+	grpc.ClientStream
+}
+
+type harryServiceServiceGetAllServiceClient struct {
+	grpc.ClientStream
+}
+
+func (x *harryServiceServiceGetAllServiceClient) Recv() (*Service, error) {
+	m := new(Service)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
+func (c *harryServiceServiceClient) CreateService(ctx context.Context, in *Service, opts ...grpc.CallOption) (*Service, error) {
+	out := new(Service)
+	err := grpc.Invoke(ctx, "/service.HarryServiceService/CreateService", in, out, c.cc, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *harryServiceServiceClient) UpdateService(ctx context.Context, in *Service, opts ...grpc.CallOption) (*Service, error) {
+	out := new(Service)
+	err := grpc.Invoke(ctx, "/service.HarryServiceService/UpdateService", in, out, c.cc, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *harryServiceServiceClient) DeleteService(ctx context.Context, in *Service, opts ...grpc.CallOption) (*DeleteResponse, error) {
+	out := new(DeleteResponse)
+	err := grpc.Invoke(ctx, "/service.HarryServiceService/DeleteService", in, out, c.cc, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// Server API for HarryServiceService service
+
+type HarryServiceServiceServer interface {
+	GetService(context.Context, *Request) (*Service, error)
+	GetAllService(*Request, HarryServiceService_GetAllServiceServer) error
+	CreateService(context.Context, *Service) (*Service, error)
+	UpdateService(context.Context, *Service) (*Service, error)
+	DeleteService(context.Context, *Service) (*DeleteResponse, error)
+}
+
+func RegisterHarryServiceServiceServer(s *grpc.Server, srv HarryServiceServiceServer) {
+	s.RegisterService(&_HarryServiceService_serviceDesc, srv)
+}
+
+func _HarryServiceService_GetService_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Request)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(HarryServiceServiceServer).GetService(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/service.HarryServiceService/GetService",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(HarryServiceServiceServer).GetService(ctx, req.(*Request))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _HarryServiceService_GetAllService_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(Request)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(HarryServiceServiceServer).GetAllService(m, &harryServiceServiceGetAllServiceServer{stream})
+}
+
+type HarryServiceService_GetAllServiceServer interface {
+	Send(*Service) error
+	grpc.ServerStream
+}
+
+type harryServiceServiceGetAllServiceServer struct {
+	grpc.ServerStream
+}
+
+func (x *harryServiceServiceGetAllServiceServer) Send(m *Service) error {
+	return x.ServerStream.SendMsg(m)
+}
+
+func _HarryServiceService_CreateService_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Service)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(HarryServiceServiceServer).CreateService(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/service.HarryServiceService/CreateService",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(HarryServiceServiceServer).CreateService(ctx, req.(*Service))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _HarryServiceService_UpdateService_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Service)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(HarryServiceServiceServer).UpdateService(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/service.HarryServiceService/UpdateService",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(HarryServiceServiceServer).UpdateService(ctx, req.(*Service))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _HarryServiceService_DeleteService_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Service)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(HarryServiceServiceServer).DeleteService(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/service.HarryServiceService/DeleteService",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(HarryServiceServiceServer).DeleteService(ctx, req.(*Service))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+var _HarryServiceService_serviceDesc = grpc.ServiceDesc{
+	ServiceName: "service.HarryServiceService",
+	HandlerType: (*HarryServiceServiceServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "GetService",
+			Handler:    _HarryServiceService_GetService_Handler,
+		},
+		{
+			MethodName: "CreateService",
+			Handler:    _HarryServiceService_CreateService_Handler,
+		},
+		{
+			MethodName: "UpdateService",
+			Handler:    _HarryServiceService_UpdateService_Handler,
+		},
+		{
+			MethodName: "DeleteService",
+			Handler:    _HarryServiceService_DeleteService_Handler,
+		},
+	},
+	Streams: []grpc.StreamDesc{
+		{
+			StreamName:    "GetAllService",
+			Handler:       _HarryServiceService_GetAllService_Handler,
+			ServerStreams: true,
+		},
+	},
+	Metadata: "service/service.proto",
 }
 
 func init() { proto.RegisterFile("service/service.proto", fileDescriptor0) }
