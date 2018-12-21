@@ -19,8 +19,12 @@ message professionServiceRequest {
     int32 stylist_id = 1;
 }
 
+message professionServiceList {
+    repeated professionService list = 1;
+}
+
 service HarryStylistProfessionService {
-    rpc GetprofessionService (professionServiceRequest) returns (professionService);
-    rpc CreateprofessionService(professionService) returns (professionService);
-    rpc UpdateprofessionService(professionService) returns (professionService);
+    rpc GetprofessionService (professionServiceRequest) returns (professionServiceList);
+    rpc CreateprofessionService(professionServiceList) returns (professionServiceList);
+    rpc UpdateprofessionService(professionServiceList) returns (professionServiceList);
 }
