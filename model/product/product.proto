@@ -1,0 +1,50 @@
+syntax = "proto3";
+
+package product;
+option go_package = "github.com/atomsystemsteam/harryprotomodels/model/product";
+
+import "google/protobuf/timestamp.proto";
+
+message product {
+    int32 id = 1;
+    string title = 2;
+    string name = 3;
+    float price = 4;
+    string description = 5;
+    bool is_active = 6;
+    int32 stylist_id = 7;
+    int32 image_id = 8;
+    google.protobuf.Timestamp UpdatedAt = 9;
+	google.protobuf.Timestamp CreatedAt = 10;
+}
+
+message productRequestById {
+    int32 id = 1;
+}
+
+message productRequestByName {
+    string name = 1;
+}
+
+message productResponse {
+    int32 code = 1;
+    string status = 2;
+    string message = 3;
+}
+
+message deleteRequest {
+    int32 id = 1;
+}
+
+message productList {
+    repeated product list = 1;
+}
+
+service HarryProductService {
+    rpc GetProductById (productRequestById) returns (product);
+    rpc GetProductByName (productRequestByName) returns (productList);
+    rpc GetAllProduct (product) returns (stream product);
+    rpc CreateProduct(product) returns (productResponse);
+    rpc UpdateProduct(product) returns (productResponse);
+    rpc DeleteProduct(deleteRequest) returns (productResponse);
+}
