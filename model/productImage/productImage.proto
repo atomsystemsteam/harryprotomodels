@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package productImage;
+option go_package = "github.com/atomsystemsteam/harryprotomodels/model/productImage";
+
+import "google/protobuf/timestamp.proto";
+
+message productImage {
+    int32 id = 1;
+    string name = 2;
+    bool is_active = 3;
+    google.protobuf.Timestamp UpdatedAt = 4;
+	google.protobuf.Timestamp CreatedAt = 5;
+}
+
+message productImageRequest{
+    int32 id = 1;
+}
+
+
+message productImageResponse {
+    int32 code = 1;
+    string status = 2;
+    string message = 3;
+}
+
+message deleteProductImageRequest {
+    int32 id = 1;
+}
+
+message productImageList {
+    repeated productImage list = 1;
+}
+
+service HarryImageService {
+    rpc GetProductImageById (productImageRequest) returns (productImage);    
+    rpc GetAllProductImage (productImage) returns (productImageList);
+    rpc CreateProductImage(productImage) returns (productImageResponse);
+    rpc UpdateProductImage(productImage) returns (productImageResponse);
+    rpc DeleteProductImage(deleteProductImageRequest) returns (productImageResponse);
+}

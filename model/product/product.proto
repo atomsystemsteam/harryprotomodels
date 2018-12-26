@@ -13,7 +13,7 @@ message product {
     string description = 5;
     bool is_active = 6;
     int32 stylist_id = 7;
-    int32 image_id = 8;
+    int32 product_image_id = 8;
     google.protobuf.Timestamp UpdatedAt = 9;
 	google.protobuf.Timestamp CreatedAt = 10;
 }

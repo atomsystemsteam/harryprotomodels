@@ -18,6 +18,9 @@ message stylist {
 	bool is_active = 9;
     bool Is_deleted = 10;
     int32 activation_key = 11;
+    int32 otp = 12;
+    bool is_email_verified = 13;
+    bool is_phone_verified = 14;
 }
 
 // request : message
@@ -68,11 +71,17 @@ message resetPasswordRequest {
     string confirmPassword = 4;
 }
 
+//otpRequest : message
+message otpRequest {
+    int64 phone = 1;
+    int32 otp = 2;
+}
+
 // HarryStylistService : GRPC stylist services
 service HarryStylistService {
     rpc GetStylist(stylistRequest) returns(stylist);
     rpc GetAllStylists(stylistRequest) returns(stream stylist);
-    rpc CheckStylistActivation(stylistRequest) returns (stylist);
+    rpc CheckStylistActivation(stylistRequest) returns (reponseMessage);
     rpc CreateStylist (stylist) returns (stylist);
     rpc UpdateStylist (stylist) returns (stylist);
     rpc DeleteStylist (stylist) returns (DeleteResponse);
@@ -80,4 +89,5 @@ service HarryStylistService {
     rpc ChangePassword(setPasswordRequest) returns(reponseMessage); 
     rpc ForgotPassword(passwordRequest) returns (reponseMessage);
     rpc ResetPassword(resetPasswordRequest) returns (reponseMessage);
+    rpc VerifyOTP(otpRequest) returns (reponseMessage);
 }
