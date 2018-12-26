@@ -22,6 +22,7 @@ message productImageResponse {
     int32 code = 1;
     string status = 2;
     string message = 3;
+    string image_name = 4;
 }
 
 message deleteProductImageRequest {
@@ -35,7 +36,6 @@ message productImageList {
 service HarryImageService {
     rpc GetProductImageById (productImageRequest) returns (productImage);    
     rpc GetAllProductImage (productImage) returns (productImageList);
-    rpc CreateProductImage(productImage) returns (productImageResponse);
-    rpc UpdateProductImage(productImage) returns (productImageResponse);
+    rpc UploadProductImage(productImage) returns (productImageResponse);
     rpc DeleteProductImage(deleteProductImageRequest) returns (productImageResponse);
 }
